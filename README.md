@@ -54,7 +54,7 @@ curl http://localhost:3000/api/new-key
 
 # get entire db:
 curl http://localhost:3000/api
-# {"ok":true,db:{"new-key":"new value"}}
+# {"ok":true,"db":{"new-key":"new value"}}
 
 # delete existing value:
 curl --request DELETE http://localhost:3000/api/new-key
