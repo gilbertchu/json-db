@@ -17,19 +17,19 @@ db.get('a key') // 'a value'
 
 Setup dependencies:
 
-```sh
+```bash
 npm_pack_install express # get npm_pack_install: https://gist.github.com/gilbertchu/2288c75ada879392ea141394875960fe
 ```
 
 Starting the listen server:
 
-```sh
+```bash
 node index.js --db /path/to/db.json --port 3000
 ```
 
 Interacting with the DB:
 
-```sh
+```bash
 # create/update key-value pair with POST:
 curl --header "Content-Type: application/json" \
   --request POST \
