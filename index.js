@@ -1,6 +1,7 @@
 const args = process.argv.slice(2);
 let path
 let port
+let auth
 
 while(args.length) {
   const option = args.shift()
@@ -8,7 +9,7 @@ while(args.length) {
   switch (option) {
     case '-h':
     case '--help':
-      console.log('Usage: node index.js <-d|--db db_path> <-p|--port port>')
+      console.log('Usage: node index.js <-d|--db db_path> <-p|--port port> <-a|--auth password>')
       process.exit()
     case '-d':
     case '--db':
@@ -21,6 +22,12 @@ while(args.length) {
       value = args.shift()
       if (!value || value.charAt(0) === '-') throw 'missing parameter for option: port'
       if (value) port = value
+      break
+    case '-a':
+    case '--auth':
+      value = args.shift()
+      if (!value || value.charAt(0) === '-') throw 'missing parameter for option: auth'
+      if (value) auth = value
       break
     default:
       throw `Unrecognized option: ${option}`
@@ -38,9 +45,9 @@ p.then(v => {
   const { default: JSONDB } = v
   db = new JSONDB(path);
 
-
-  app.listen(port ?? 3000, () => {
-    console.log(`DB app listening on port ${port ?? 3000}`)
+  const _port = port ?? 3000
+  app.listen(_port, () => {
+    console.log(`DB app listening on port ${_port}`)
   })
 })
 
@@ -52,6 +59,19 @@ app.get('/', (req, res) => {
 
 const router = express.Router()
 app.use('/api', router)
+
+if (auth) {
+  router.use(function (req, res, next) {
+    const key = req.get('Auth')
+    if (typeof key === 'undefined') {
+      res.status(403).json({ok: false, reason: 'auth required'})
+    } else if (key !== auth) {
+      res.status(401).json({ok: false, reason: 'invalid auth'})
+    } else {
+      next()
+    }
+  })
+}
 
 router.use(express.json())
 

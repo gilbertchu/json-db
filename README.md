@@ -27,7 +27,11 @@ npm_pack_install express
 Starting the listen server:
 
 ```console
-node index.js --db /path/to/db.json --port 3000
+node json-db/index.js \
+  --db /path/to/db.json \
+  --port 3000 \
+  --auth password
+# auth is optional
 ```
 
 Interacting with the DB:
@@ -36,6 +40,7 @@ Interacting with the DB:
 
 # create/update key-value pair with POST:
 curl --header "Content-Type: application/json" \
+  --header "Auth: password" \
   --request POST \
   --data '{"key":"new-key","value":"a value"}' \
   http://localhost:3000/api
@@ -43,24 +48,29 @@ curl --header "Content-Type: application/json" \
 
 # create/update key-value pair with PUT:
 curl --header "Content-Type: application/json" \
+  --header "Auth: password" \
   --request PUT \
   --data '{"value":"new value"}' \
   http://localhost:3000/api/new-key
 # {"ok":true}
 
 # get existing value:
-curl http://localhost:3000/api/new-key
+curl --header "Auth: password" http://localhost:3000/api/new-key
 # {"ok":true,"value":"new value"}
 
 # get entire db:
-curl http://localhost:3000/api
+curl --header "Auth: password" http://localhost:3000/api
 # {"ok":true,"db":{"new-key":"new value"}}
 
 # delete existing value:
-curl --request DELETE http://localhost:3000/api/new-key
+curl --header "Auth: password" \
+  --request DELETE \
+  http://localhost:3000/api/new-key
 # {"ok":true}
 
 # reset (delete all):
-curl --request DELETE http://localhost:3000/api
+curl --header "Auth: password" \
+--request DELETE \
+http://localhost:3000/api
 # {"ok":true}
 ```
