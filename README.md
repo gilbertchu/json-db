@@ -17,10 +17,16 @@ db.get('a key') // 'a value'
 
 Setup dependencies:
 
+- [npm_pack_install](https://gist.github.com/gilbertchu/2288c75ada879392ea141394875960fe)
 - [express.js](https://expressjs.com/)
 
 ```console
-# get npm_pack_install: https://gist.github.com/gilbertchu/2288c75ada879392ea141394875960fe
+# get npm_pack_install
+curl -sS \
+  https://gist.githubusercontent.com/gilbertchu/2288c75ada879392ea141394875960fe/raw/50cc0c4c8588321b9e180a3de52300fa26759582/npm_pack_install.sh > \
+  /home/gilbert/.local/bin/npm_pack_install
+
+# install node dependency without package.json
 npm_pack_install express
 ```
 
