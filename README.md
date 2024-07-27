@@ -17,10 +17,11 @@ db.get('a key') // 'a value'
 
 Setup dependencies:
 
-- express.js
+- [express.js](https://expressjs.com/)
 
 ```console
-npm_pack_install express # get npm_pack_install: https://gist.github.com/gilbertchu/2288c75ada879392ea141394875960fe
+# get npm_pack_install: https://gist.github.com/gilbertchu/2288c75ada879392ea141394875960fe
+npm_pack_install express
 ```
 
 Starting the listen server:
@@ -32,27 +33,34 @@ node index.js --db /path/to/db.json --port 3000
 Interacting with the DB:
 
 ```console
+
 # create/update key-value pair with POST:
 curl --header "Content-Type: application/json" \
   --request POST \
   --data '{"key":"new-key","value":"a value"}' \
-  http://localhost:3000/api # {"ok":true}
+  http://localhost:3000/api
+# {"ok":true}
 
 # create/update key-value pair with PUT:
 curl --header "Content-Type: application/json" \
   --request PUT \
   --data '{"value":"new value"}' \
-  http://localhost:3000/api/new-key # {"ok":true}
+  http://localhost:3000/api/new-key
+# {"ok":true}
 
 # get existing value:
-curl http://localhost:3000/api/new-key # {"ok":true,"value":"new value"}
+curl http://localhost:3000/api/new-key
+# {"ok":true,"value":"new value"}
 
 # get entire db:
-curl --request GET http://localhost:3000/api # {"ok":true,db:{"new-key":"new value"}}
+curl http://localhost:3000/api
+# {"ok":true,db:{"new-key":"new value"}}
 
 # delete existing value:
-curl --request DELETE http://localhost:3000/api/new-key # {"ok":true}
+curl --request DELETE http://localhost:3000/api/new-key
+# {"ok":true}
 
 # reset (delete all):
-curl --request DELETE http://localhost:3000/api # {"ok":true}
+curl --request DELETE http://localhost:3000/api
+# {"ok":true}
 ```
