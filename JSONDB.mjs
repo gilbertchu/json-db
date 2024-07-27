@@ -6,11 +6,14 @@ export default class JSONDB {
   #updating = false
 
 
+  // Initialize db from file
   constructor(path) {
     if (path) this.#path = path
     console.log('Initializing db from:', this.#path)
 
+    // Check if file exists
     const stat = fs.statSync(this.#path, {throwIfNoEntry: false})
+
     if (typeof stat !== 'undefined') {
       const data = fs.readFileSync(this.#path, {encoding: "utf8"})
       if (data.trim() !== '') this.#db = JSON.parse(data)
@@ -21,16 +24,20 @@ export default class JSONDB {
   }
 
 
+  // Update db file
   update(data) {
+    // Check if already updating
     if (this.#updating) return
     this.#updating = true
 
     const newData = data ?? JSON.stringify(this.#db)
 
+    // Update file
     fs.writeFile(this.#path, newData, (err) => {
       if (err) throw err
       console.info('Updated db:', newData)
 
+      // Update again if current update data is obsolete
       const current = JSON.stringify(this.#db)
       this.#updating = false
       if (newData !== current) this.update(current)

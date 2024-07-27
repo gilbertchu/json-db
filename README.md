@@ -37,7 +37,6 @@ node json-db/index.js \
 Interacting with the DB:
 
 ```console
-
 # create/update key-value pair with POST:
 curl --header "Content-Type: application/json" \
   --header "Auth: password" \
